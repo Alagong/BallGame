@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AnimationContainer.cpp" />
+    <ClCompile Include="src\AnimationHandler.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\ComponentEngine\CommandQueue.cpp" />
+    <ClCompile Include="src\ComponentEngine\ComponentContainer.cpp" />
+    <ClCompile Include="src\ComponentEngine\ComponentFactory.cpp" />
+    <ClCompile Include="src\Components\AnimationPlayer.cpp" />
+    <ClCompile Include="src\Components\ObjectSprite.cpp" />
+    <ClCompile Include="src\DrawManager.cpp" />
+    <ClCompile Include="src\GameManager.cpp" />
+    <ClCompile Include="src\main.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="src\ObjectManager.cpp" />
+    <ClCompile Include="src\ObjectTemplateManager.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Animation.h" />
+    <ClInclude Include="include\AnimationContainer.h" />
+    <ClInclude Include="include\AnimationHandler.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\ComponentEngine\CommandQueue.h" />
+    <ClInclude Include="include\ComponentEngine\CompCommands.h" />
+    <ClInclude Include="include\ComponentEngine\CompEvents.h" />
+    <ClInclude Include="include\ComponentEngine\Component.h" />
+    <ClInclude Include="include\ComponentEngine\ComponentCommands.h" />
+    <ClInclude Include="include\ComponentEngine\ComponentContainer.h" />
+    <ClInclude Include="include\ComponentEngine\ComponentFactory.h" />
+    <ClInclude Include="include\ComponentEngine\ComponentRegistrator.h" />
+    <ClInclude Include="include\ComponentEngine\Entity.h" />
+    <ClInclude Include="include\componentengine\iproperty.h" />
+    <ClInclude Include="include\ComponentEngine\Property.h" />
+    <ClInclude Include="include\ComponentEngine\PropertyContainer.h" />
+    <ClInclude Include="include\Components\AnimationPlayer.h" />
+    <ClInclude Include="include\Components\ObjectSprite.h" />
+    <ClInclude Include="include\defines.h" />
+    <ClInclude Include="include\DrawManager.h" />
+    <ClInclude Include="include\Frame.h" />
+    <ClInclude Include="include\GameManager.h" />
+    <ClInclude Include="include\PhysicsManager.h" />
+    <ClInclude Include="include\Timer.h" />
+    <ClInclude Include="include\Object.h" />
+    <ClInclude Include="include\ObjectManager.h" />
+    <ClInclude Include="include\ObjectSprite.h" />
+    <ClInclude Include="include\ObjectTemplateManager.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A71DC48A-C40B-422C-983D-41F62CF7729E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>BallGame</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\libraries\SFML-2.0-rc\include\;C:\libraries\Box2D_v2.2.1\;..\ComponentEngine\include;C:\libraries\boost_1_50_0\;C:\libraries\json_spirit_v4.05\json_spirit;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\libraries\SFML-2.0-rc\lib;C:\libraries\Box2D_v2.2.1\Build\vs2010\bin\Debug;C:\libraries\boost_1_50_0\stage\lib\;C:\libraries\json_spirit_v4.05\Debug;$(LibraryPath)</LibraryPath>
+    <OutDir>bin/Debug/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Box2D.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;libboost_signals-vc100-mt-gd-1_50.lib;json_spirit_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
