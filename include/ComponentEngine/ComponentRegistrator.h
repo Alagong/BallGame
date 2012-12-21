@@ -4,8 +4,10 @@
 //	
 //#pragma once
 #include "ComponentEngine/ComponentFactory.h"
+
 #include "Components/ObjectSprite.h"
 #include "Components/AnimationPlayer.h"
+#include "Components/BodyDynamic.h"
 class ComponentRegistrator
 {
 public:
@@ -13,5 +15,6 @@ public:
 	{
 		factory.RegisterComponent("ObjectSprite",&ObjectSprite::Create);
 		factory.RegisterComponent("AnimationPlayer",&AnimationPlayer::Create);
+		factory.RegisterComponent("BodyDynamic",&BodyDynamic::Create);
 	}
 };

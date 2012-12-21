@@ -18,6 +18,8 @@
     <ClCompile Include="src\ComponentEngine\ComponentContainer.cpp" />
     <ClCompile Include="src\ComponentEngine\ComponentFactory.cpp" />
     <ClCompile Include="src\Components\AnimationPlayer.cpp" />
+    <ClCompile Include="src\Components\BodyDynamic.cpp" />
+    <ClCompile Include="src\Components\FixtureBox.cpp" />
     <ClCompile Include="src\Components\ObjectSprite.cpp" />
     <ClCompile Include="src\DrawManager.cpp" />
     <ClCompile Include="src\GameManager.cpp" />
@@ -26,6 +28,7 @@
     </ClCompile>
     <ClCompile Include="src\ObjectManager.cpp" />
     <ClCompile Include="src\ObjectTemplateManager.cpp" />
+    <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +49,8 @@
     <ClInclude Include="include\ComponentEngine\Property.h" />
     <ClInclude Include="include\ComponentEngine\PropertyContainer.h" />
     <ClInclude Include="include\Components\AnimationPlayer.h" />
+    <ClInclude Include="include\Components\BodyDynamic.h" />
+    <ClInclude Include="include\Components\FixtureBox.h" />
     <ClInclude Include="include\Components\ObjectSprite.h" />
     <ClInclude Include="include\defines.h" />
     <ClInclude Include="include\DrawManager.h" />
