@@ -49,6 +49,21 @@ void ObjectManager::UpdateObjects()
 			(*it)->UpdateComponents( delta );
 		}
 	}
+
+	for( int i = 0; i < LAYER_COUNT; ++i )
+	{
+		for( std::list<Object*>::iterator it = objectLists[i].begin(); it != objectLists[i].end(); )
+		{
+			if( (*it)->ShouldBeRemoved() )
+			{
+				delete *it;
+				it = objectLists[i].erase( it );
+			} else 
+			{
+				++it;
+			}
+		}
+	}
 }
 
 void ObjectManager::DrawObjects(sf::RenderWindow* window)

@@ -4,13 +4,13 @@
 class Object;
 class b2Fixture;
 class b2Body;
-class FixtureBox : public Component
+class FixtureSphere : public Component
 {
 public:
-	FixtureBox(Entity *entity, const std::string &name);
-	virtual ~FixtureBox();
+	FixtureSphere(Entity *entity, const std::string &name);
+	virtual ~FixtureSphere();
 
-	static Component* Create(Entity* entity, const std::string &name) { return new FixtureBox(entity, name); }
+	static Component* Create(Entity* entity, const std::string &name) { return new FixtureSphere(entity, name); }
 
 	void Init();
 	void Update(int delta);
@@ -20,19 +20,18 @@ public:
 private:
 	b2Fixture* fixture;
 	b2Body* body;
+	
+	void CreateFixture();
 
 	void OnisSensorChanged(const bool &oldValue, const bool &newValue);
+	void OnRadiusChanged(const float &oldValue, const float &newValue);
 protected:
-	Property<float> spriteWidth;
-	Property<float> spriteHeight;
+	Property<float> spriteRadius;
 	Property<float> posX;
 	Property<float> posY;
 	Property<float> rotation;
 
-	Property<float> collisionWidth;
-	Property<float> collisionHeight;
-	Property<float> collisionOffsetX;
-	Property<float> collisionOffsetY;
+	Property<float> collisionRadius;
 	Property<bool> isSensor;
 	Property<float> density;
 	Property<float> friction;

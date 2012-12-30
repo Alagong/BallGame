@@ -6,12 +6,13 @@
 #include <vector>
 class ComponentContainer;
 class Object;
+struct CommandData;
 struct Command
 {
 	int command;
 	int delay;
 	void* data;
-	Command(int command, int delay, void *data)
+	Command(int command, int delay, void* data)
 	{
 		this->command = command;
 		this->delay = delay;

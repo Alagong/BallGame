@@ -25,7 +25,7 @@ BodyDynamic::BodyDynamic(Entity *entity, const std::string &name)
 	fixedRotation = go->AddProperty<bool>("FixedRotation",false);
 
 	physBody = go->AddProperty<b2Body**>("PhysBody", &body);
-	staticObject = go->AddProperty<bool>("StaticObject",true);
+	staticObject = go->AddProperty<bool>("StaticObject",false);
 }
 
 BodyDynamic::~BodyDynamic()
@@ -39,20 +39,19 @@ void BodyDynamic::Init()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set( posX.Get()/PTM_RATIO, posY.Get()/PTM_RATIO );
+	bodyDef.position.Set( (posX.Get())/PTM_RATIO, posY.Get()/PTM_RATIO );
+	bodyDef.angle = rotation*DEGTORAD;
 	body = PhysicsManager::Instance()->CreateBody( &bodyDef );
-
+	physBody.Set( &body );
 	body->SetUserData( go );
-	body->SetFixedRotation( fixedRotation.Get() );
+	//body->SetFixedRotation( fixedRotation.Get() );
 
 	body->SetLinearVelocity( b2Vec2( initialVelX.Get(), initialVelY.Get() ) );
 	//body->SetAngularVelocity(util::Random(-initialAngleVel.Get(), initialAngleVel.Get() ));
 	staticObject.Set(false);
-	
-
 }
 
-void BodyDynamic::Update(int delta)
+void BodyDynamic::Update(float delta)
 {
 	posX.Set( body->GetPosition().x * PTM_RATIO, false );
 	posY.Set( body->GetPosition().y * PTM_RATIO, false );

@@ -11,9 +11,10 @@ private:
 public:
 	Object( ComponentFactory& factory ) : Entity(factory)
 	{
-
+		bFlaggedForRemoval = false;
 	}
 
+	void FlagForRemoval() {bFlaggedForRemoval = true;}
 	bool ShouldBeRemoved() {return bFlaggedForRemoval;}
 	void SetName( std::string& name ) { this->name = name; }
 };

@@ -1,5 +1,6 @@
 #include "PhysicsManager.h"
 #include <Box2D\Box2D.h>
+#include "CustomContactListener.h"
 PhysicsManager* PhysicsManager::physicsManagerInstance;
 PhysicsManager* PhysicsManager::Instance()
 {
@@ -13,13 +14,16 @@ PhysicsManager::PhysicsManager()
 	positionIterations = 8;
 	timeStep = 1.0f / 60.f;
 
-	b2Vec2 gravity(0, -9.81f);
+	customContactListener = new CustomContactListener();
+
+	b2Vec2 gravity(0, 9.81f);
 	box2d_world = new b2World(gravity);
-	box2d_world->SetAllowSleeping( true );
+	box2d_world->SetContactListener( customContactListener );
 }
 
 PhysicsManager::~PhysicsManager()
 {
+	delete customContactListener;
 	delete box2d_world;
 }
 
@@ -36,4 +40,9 @@ b2Body* PhysicsManager::CreateBody( b2BodyDef* bodyDef )
 void PhysicsManager::DestroyBody( b2Body* body )
 {
 	box2d_world->DestroyBody( body );
+}
+
+b2World* PhysicsManager::GetWorld()
+{
+	return box2d_world;
 }

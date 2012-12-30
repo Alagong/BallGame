@@ -1,13 +1,13 @@
 #pragma once
 #include <list>
-class Player;
-class Wall;
 class Camera;
+class Input;
 class GameManager
 {
 private:
 	static GameManager* gameManagerInstance;
 	Camera* camera;
+	Input* input;
 public:
 	static GameManager* Instance();
 	GameManager();

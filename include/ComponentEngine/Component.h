@@ -6,6 +6,7 @@ namespace sf
 {
 	class RenderWindow;
 }
+struct CommandData;
 class Entity;
 class Component
 {

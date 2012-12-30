@@ -17,24 +17,33 @@
     <ClCompile Include="src\ComponentEngine\CommandQueue.cpp" />
     <ClCompile Include="src\ComponentEngine\ComponentContainer.cpp" />
     <ClCompile Include="src\ComponentEngine\ComponentFactory.cpp" />
+    <ClCompile Include="src\Components\AIController_Walker.cpp" />
     <ClCompile Include="src\Components\AnimationPlayer.cpp" />
+    <ClCompile Include="src\Components\BallCoreController.cpp" />
     <ClCompile Include="src\Components\BodyDynamic.cpp" />
+    <ClCompile Include="src\Components\BodyStatic.cpp" />
+    <ClCompile Include="src\Components\BubbleAbsorbable.cpp" />
     <ClCompile Include="src\Components\FixtureBox.cpp" />
+    <ClCompile Include="src\Components\FixtureSphere.cpp" />
     <ClCompile Include="src\Components\ObjectSprite.cpp" />
+    <ClCompile Include="src\Components\PlayerInput.cpp" />
     <ClCompile Include="src\DrawManager.cpp" />
     <ClCompile Include="src\GameManager.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include;</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="src\ObjectManager.cpp" />
     <ClCompile Include="src\ObjectTemplateManager.cpp" />
     <ClCompile Include="src\PhysicsManager.cpp" />
+    <ClCompile Include="src\QueryCallbacks.cpp" />
     <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\AnimationContainer.h" />
     <ClInclude Include="include\AnimationHandler.h" />
+    <ClInclude Include="include\Callbacks.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\ComponentEngine\CommandQueue.h" />
     <ClInclude Include="include\ComponentEngine\CompCommands.h" />
@@ -48,15 +57,24 @@
     <ClInclude Include="include\componentengine\iproperty.h" />
     <ClInclude Include="include\ComponentEngine\Property.h" />
     <ClInclude Include="include\ComponentEngine\PropertyContainer.h" />
+    <ClInclude Include="include\Components\AIController_Walker.h" />
     <ClInclude Include="include\Components\AnimationPlayer.h" />
+    <ClInclude Include="include\Components\BallCoreController.h" />
     <ClInclude Include="include\Components\BodyDynamic.h" />
+    <ClInclude Include="include\Components\BodyStatic.h" />
+    <ClInclude Include="include\Components\BubbleAbsorbable.h" />
     <ClInclude Include="include\Components\FixtureBox.h" />
+    <ClInclude Include="include\Components\FixtureSphere.h" />
     <ClInclude Include="include\Components\ObjectSprite.h" />
+    <ClInclude Include="include\Components\PlayerInput.h" />
+    <ClInclude Include="include\CustomContactListener.h" />
     <ClInclude Include="include\defines.h" />
     <ClInclude Include="include\DrawManager.h" />
     <ClInclude Include="include\Frame.h" />
     <ClInclude Include="include\GameManager.h" />
+    <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\PhysicsManager.h" />
+    <ClInclude Include="include\QueryCallbacks.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\ObjectManager.h" />

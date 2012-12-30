@@ -7,13 +7,13 @@
 
 class b2Body;
 class Object;
-class BodyDynamic : public Component
+class BodyStatic : public Component
 {
 public:
-	BodyDynamic(Entity *entity, const std::string &name);
-	virtual ~BodyDynamic();
+	BodyStatic(Entity *entity, const std::string &name);
+	virtual ~BodyStatic();
 
-	static Component* Create(Entity* entity, const std::string &name) { return new BodyDynamic(entity, name); }
+	static Component* Create(Entity* entity, const std::string &name) { return new BodyStatic(entity, name); }
 
 	void Init();
 	void Update(float delta);
@@ -29,15 +29,7 @@ protected:
 	Property<float> posX;
 	Property<float> posY;
 
-	Property<float> velocityX;
-	Property<float> velocityY;
-
-	Property<float> initialVelX;
-	Property<float> initialVelY;
-	Property<float> initialAngleVel;
-
 	Property<float> rotation;
-	Property<bool> fixedRotation;
 	Property<b2Body**> physBody;
 	Property<bool> staticObject;
 

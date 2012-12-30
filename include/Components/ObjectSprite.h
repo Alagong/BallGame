@@ -21,6 +21,8 @@ public:
 private:
 
 	bool compInitialized;
+	void OnWidthChanged(const float &oldValue, const float &newValue);
+	void OnHeightChanged(const float &oldValue, const float &newValue);
 
 protected:
 
@@ -30,14 +32,22 @@ protected:
 	Property<int> skin;
 	Property<bool> randomSkin;
 	Property<int> totalSkins;
+
 	Property<float> posX;
 	Property<float> posY;
+
 	Property<float> imagePosX;
 	Property<float> imagePosY;
+
 	Property<float> offsetX;
 	Property<float> offsetY;
+
 	Property<float> spriteWidth;
 	Property<float> spriteHeight;
+
+	Property<float> width;
+	Property<float> height;
+
 	Property<float> rotation;
 	Property<int> alpha;
 
