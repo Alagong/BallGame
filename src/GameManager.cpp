@@ -34,7 +34,7 @@ GameManager::~GameManager()
 void GameManager::Run()
 {
 	std::string title("Ball Game");
-	DrawManager::Instance()->CreateWindow( title, 1366, 768, false, 60 );
+	DrawManager::Instance()->CreateWindow( title, 1360, 768, false, 60 );
 
 	ComponentRegistrator::Register( *ComponentFactory::Instance() );
 
@@ -54,6 +54,10 @@ void GameManager::Run()
 		sf::Event event;
 		while( windowPtr->pollEvent( event ) )
 		{
+			if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+			{
+				windowPtr->close();
+			}
 			input->PollInput( event );
 		}
 

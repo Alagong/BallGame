@@ -41,16 +41,26 @@ void BallCoreController::Init()
 		movingDirection[i] = false;
 	}
 
-	absorbing = false;
+	absorbed = false;
 
 	cameraZoom = spriteRadius/70;
 
 	jumping = false;
+
+	split = false;
 }
 
 void BallCoreController::Update(float delta)
 {
 	float maxSpeed = spriteRadius.Get()/7;
+	if ( abs( sf::Joystick::getAxisPosition(0,sf::Joystick::X) ) > 0.3 )
+	{
+		float speed = sf::Joystick::getAxisPosition(0,sf::Joystick::X)/100;
+		if( abs(body->GetLinearVelocity().x) < abs(maxSpeed) )
+		{
+			body->ApplyForceToCenter( b2Vec2( maxSpeed * speed, 0 ) );
+		}
+	}
 
 	if( Input::IsKeyDown( sf::Keyboard::Right ) )
 	{
@@ -58,7 +68,7 @@ void BallCoreController::Update(float delta)
 		{
 			if( body->GetLinearVelocity().x < 0 )
 			{
-				body->ApplyForceToCenter( b2Vec2( maxSpeed*2, 0 ) );
+				body->ApplyForceToCenter( b2Vec2( maxSpeed, 0 ) );
 			} else 
 			{
 				body->ApplyForceToCenter( b2Vec2( maxSpeed, 0 ) );
@@ -86,26 +96,30 @@ void BallCoreController::Update(float delta)
 
 	if( absorbing )
 	{
-		QueryObjectsAABB callback;
-		b2AABB aabb;
-		aabb.lowerBound = b2Vec2( ( posX.Get() - spriteRadius/2 )/PTM_RATIO, ( posY.Get() - spriteRadius/2 )/PTM_RATIO );
-		aabb.upperBound = b2Vec2( ( posX.Get() + spriteRadius/2 )/PTM_RATIO, ( posY.Get() + spriteRadius/2 )/PTM_RATIO );
-		PhysicsManager::Instance()->GetWorld()->QueryAABB( &callback, aabb );
-
-		std::vector<b2Fixture*> &fixtures = callback.fixtures;
-
-		for(std::vector<b2Fixture*>::iterator it = fixtures.begin(); it != fixtures.end(); ++it )
+		if( !absorbed )
 		{
-			Object* obj = (Object*)(*it)->GetUserData();
-			if( obj == go ) continue;
+			QueryObjectsAABB callback;
+			b2AABB aabb;
+			aabb.lowerBound = b2Vec2( ( posX.Get() - spriteRadius/2 )/PTM_RATIO, ( posY.Get() - spriteRadius/2 )/PTM_RATIO );
+			aabb.upperBound = b2Vec2( ( posX.Get() + spriteRadius/2 )/PTM_RATIO, ( posY.Get() + spriteRadius/2 )/PTM_RATIO );
+			PhysicsManager::Instance()->GetWorld()->QueryAABB( &callback, aabb );
 
-			if( obj->HasComponent( "BubbleAbsorbable" ) )
+			std::vector<b2Fixture*> &fixtures = callback.fixtures;
+
+			for(std::vector<b2Fixture*>::iterator it = fixtures.begin(); it != fixtures.end(); ++it )
 			{
-				std::cout << "yes" << std::endl;
-				spriteRadius += obj->GetProperty<float>("Width");
-				height = spriteRadius.Get();
-				obj->FlagForRemoval();
+				Object* obj = (Object*)(*it)->GetUserData();
+				if( obj == go ) continue;
+
+				if( obj->HasComponent( "BubbleAbsorbable" ) )
+				{
+					std::cout << "yes" << std::endl;
+					spriteRadius += obj->GetProperty<float>("Width");
+					height = spriteRadius.Get();
+					obj->FlagForRemoval();
+				}
 			}
+			absorbed = true;
 		}
 	}
 
@@ -145,7 +159,14 @@ void BallCoreController::ExecuteCommand(int command, void* data)
 		{
 			if( (bool)data )
 			{
-				SplitBubble();
+				if( !split )
+				{
+					SplitBubble();
+					split = true;
+				}
+			} else 
+			{
+				split = false;
 			}
 			break;
 		}
@@ -157,6 +178,7 @@ void BallCoreController::ExecuteCommand(int command, void* data)
 			} else 
 			{
 				absorbing = false;
+				absorbed = false;
 			}
 			break;
 		}
@@ -196,7 +218,7 @@ void BallCoreController::ExecuteEvent(int event, void* data)
 			collidedWith = (Object*)contact->GetFixtureA()->GetUserData();
 		}
 
-		if( collidedWith->HasComponent("BubbleAbsorbable") )
+		if( collidedWith->HasComponent("BubbleAbsorbable") || collidedWith->HasComponent("TrackTrain") )
 		{
 			if( (collidedWith->GetProperty<float>("PosY") - posY.Get()) > 0 )
 			{

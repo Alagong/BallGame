@@ -20,9 +20,10 @@ public:
 private:
 	b2Body* body;
 	int movingDirection[4];
-
+	bool absorbed;
 	bool absorbing;
 	bool jumping;
+	bool split;
 	void SplitBubble();
 	void OnWidthChanged(const float &oldValue, const float &newValue);
 

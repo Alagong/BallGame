@@ -22,7 +22,7 @@ void PlayerInput::Init()
 
 void PlayerInput::Update(float delta)
 {
-	if( Input::KeyPressed( sf::Keyboard::Space ) )
+	if( Input::KeyPressed( sf::Keyboard::Space ) || Input::jKeyPressed( sf::Joystick::X) )
 	{
 		go->ExecuteCommand( COMMAND_JUMP );
 	}
@@ -89,22 +89,22 @@ void PlayerInput::Update(float delta)
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
 	}*/
 
-	if( Input::KeyPressed( sf::Keyboard::Z ) )
+	if( Input::KeyPressed( sf::Keyboard::Z ) || Input::jKeyPressed( sf::Joystick::Z) )
 	{
 		go->ExecuteCommand( COMMAND_ACTION1, 0, (void*)true );
 	}
 
-	if( Input::KeyReleased( sf::Keyboard::Z ) )
+	if( Input::KeyReleased( sf::Keyboard::Z ) || Input::jKeyReleased( sf::Joystick::Z) )
 	{
 		go->ExecuteCommand( COMMAND_ACTION1, 0, (void*)false );
 	}
 
-	if( Input::KeyPressed( sf::Keyboard::X ) )
+	if( Input::KeyPressed( sf::Keyboard::X ) || Input::jKeyPressed( sf::Joystick::Y)  )
 	{
 		go->ExecuteCommand( COMMAND_ACTION2, 0, (void*)true );
 	}
 
-	if( Input::KeyReleased( sf::Keyboard::X ) )
+	if( Input::KeyReleased( sf::Keyboard::X ) || Input::jKeyReleased( sf::Joystick::Y) )
 	{
 		go->ExecuteCommand( COMMAND_ACTION2, 0, (void*)false );
 	}

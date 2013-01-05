@@ -3,6 +3,8 @@
 #include <iostream>
 bool Input::keysPressed[ sf::Keyboard::KeyCount ];
 bool Input::keysReleased[ sf::Keyboard::KeyCount ];
+bool Input::jkeysPressed[ sf::Joystick::ButtonCount ];
+bool Input::jkeysReleased[ sf::Joystick::ButtonCount ];
 
 Input::Input()
 {
@@ -34,6 +36,16 @@ void Input::PollInput( sf::Event& event )
 	{
 		keysPressed[ event.key.code ] = false;
 		keysReleased[ event.key.code ] = true;
+	} else if( event.type == sf::Event::JoystickButtonPressed )
+	{
+		std::cout << "press" << std::endl;
+		jkeysPressed[ event.joystickButton.button ] = true;
+		jkeysReleased[ event.joystickButton.button ] = false;
+	} else if( event.type == sf::Event::JoystickButtonReleased )
+	{
+		std::cout << "press2" << std::endl;
+		jkeysPressed[ event.joystickButton.button ] = false;
+		jkeysReleased[ event.joystickButton.button ] = true;
 	}
 }
 
@@ -45,4 +57,14 @@ bool Input::KeyPressed( sf::Keyboard::Key key )
 bool Input::KeyReleased( sf::Keyboard::Key key )
 {
 	return keysReleased[ key ];
+}
+
+bool Input::jKeyPressed( int key )
+{
+	return jkeysPressed[ key ];
+}
+
+bool Input::jKeyReleased( int key )
+{
+	return jkeysReleased[ key ];
 }
