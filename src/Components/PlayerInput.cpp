@@ -27,12 +27,13 @@ void PlayerInput::Update(float delta)
 		go->ExecuteCommand( COMMAND_JUMP );
 	}
 
-	if( Input::KeyPressed( sf::Keyboard::Right ) )
+/*	if( Input::KeyPressed( sf::Keyboard::Right ) )
 	{
 		CommandData_Move* moveData = new CommandData_Move();
 		moveData->direction = 0;
 		moveData->start = true;
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
+		delete moveData;
 	}
 	if( Input::KeyPressed( sf::Keyboard::Up ) )
 	{
@@ -40,6 +41,7 @@ void PlayerInput::Update(float delta)
 		moveData->direction = 1;
 		moveData->start = true;
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
+		delete moveData;
 	}
 	if( Input::KeyPressed( sf::Keyboard::Left ) )
 	{
@@ -47,6 +49,7 @@ void PlayerInput::Update(float delta)
 		moveData->direction = 2;
 		moveData->start = true;
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
+		delete moveData;
 	}
 	if( Input::KeyPressed( sf::Keyboard::Down ) )
 	{
@@ -54,6 +57,7 @@ void PlayerInput::Update(float delta)
 		moveData->direction = 3;
 		moveData->start = true;
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
+		delete moveData;
 	}
 
 	if( Input::KeyReleased( sf::Keyboard::Right ) )
@@ -83,6 +87,35 @@ void PlayerInput::Update(float delta)
 		moveData->direction = 3;
 		moveData->start = false;
 		go->ExecuteCommand( COMMAND_MOVE, 0 , moveData );
+	}*/
+
+	if( Input::KeyPressed( sf::Keyboard::Z ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION1, 0, (void*)true );
+	}
+
+	if( Input::KeyReleased( sf::Keyboard::Z ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION1, 0, (void*)false );
+	}
+
+	if( Input::KeyPressed( sf::Keyboard::X ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION2, 0, (void*)true );
+	}
+
+	if( Input::KeyReleased( sf::Keyboard::X ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION2, 0, (void*)false );
+	}
+
+	if( Input::KeyPressed( sf::Keyboard::F1 ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION3, 0, (void*)true );
+	}
+	if( Input::KeyPressed( sf::Keyboard::F2 ) )
+	{
+		go->ExecuteCommand( COMMAND_ACTION4, 0, (void*)true );
 	}
 }
 

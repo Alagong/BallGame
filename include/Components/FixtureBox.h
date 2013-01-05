@@ -23,8 +23,8 @@ private:
 
 	void OnisSensorChanged(const bool &oldValue, const bool &newValue);
 protected:
-	Property<float> spriteWidth;
-	Property<float> spriteHeight;
+	Property<float> width;
+	Property<float> height;
 	Property<float> posX;
 	Property<float> posY;
 	Property<float> rotation;

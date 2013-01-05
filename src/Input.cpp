@@ -25,13 +25,14 @@ void Input::ResetKeyStates()
 
 void Input::PollInput( sf::Event& event )
 {
-	if( event.type == sf::Event::KeyPressed )
+	if( event.type == sf::Event::KeyPressed  )
 	{
-		std::cout << "Key pressed" << std::endl;
 		keysPressed[ event.key.code ] = true;
+		keysReleased[ event.key.code ] = false;
 	}
 	else if ( event.type == sf::Event::KeyReleased )
 	{
+		keysPressed[ event.key.code ] = false;
 		keysReleased[ event.key.code ] = true;
 	}
 }

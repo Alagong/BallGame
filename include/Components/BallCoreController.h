@@ -21,12 +21,19 @@ private:
 	b2Body* body;
 	int movingDirection[4];
 
+	bool absorbing;
+	bool jumping;
+	void SplitBubble();
+	void OnWidthChanged(const float &oldValue, const float &newValue);
+
 protected:
 	Property<float> posX;
 	Property<float> posY;
 	Property<float> spriteRadius;
 	Property<float> height;
 	Property<b2Body**> physBody;
+
+	Property<float> cameraZoom;
 
 	Object* go;
 

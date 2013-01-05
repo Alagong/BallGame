@@ -6,7 +6,6 @@ class GameManager
 {
 private:
 	static GameManager* gameManagerInstance;
-	Camera* camera;
 	Input* input;
 public:
 	static GameManager* Instance();
@@ -15,5 +14,4 @@ public:
 
 	void Run();
 
-	Camera* GetCamera() { return camera; }
 };

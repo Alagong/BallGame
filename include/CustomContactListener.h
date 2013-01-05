@@ -11,7 +11,7 @@ public:
 		Object* a = (Object*)contact->GetFixtureA()->GetUserData();
 		Object* b = (Object*)contact->GetFixtureB()->GetUserData();
 		
-		a->ExecuteEvent( EVENT_STARTEDCOLLIDING, (void*)b );
-		b->ExecuteEvent( EVENT_STARTEDCOLLIDING, (void*)a );
+		a->ExecuteEvent( EVENT_STARTEDCOLLIDING, (void*)contact );
+		b->ExecuteEvent( EVENT_STARTEDCOLLIDING, (void*)contact );
 	}
 };

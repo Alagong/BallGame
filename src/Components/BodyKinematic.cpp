@@ -1,9 +1,9 @@
-#include "Components/BodyDynamic.h"
-#include "ComponentEngine/CompEvents.h"
+#include "Components/BodyKinematic.h"
 #include "Object.h"
 #include "PhysicsManager.h"
 #include <Box2D\Box2D.h>
-BodyDynamic::BodyDynamic(Entity *entity, const std::string &name)
+
+BodyKinematic::BodyKinematic(Entity *entity, const std::string &name)
 	: Component(entity,name), go((Object*)entity)
 {
 	body = NULL;
@@ -28,17 +28,17 @@ BodyDynamic::BodyDynamic(Entity *entity, const std::string &name)
 	staticObject = go->AddProperty<bool>("StaticObject",false);
 }
 
-BodyDynamic::~BodyDynamic()
+BodyKinematic::~BodyKinematic()
 {
 	if(body)
 		PhysicsManager::Instance()->DestroyBody( body );
 	physBody.Set(NULL);
 }
 
-void BodyDynamic::Init()
+void BodyKinematic::Init()
 {
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set( (posX.Get())/PTM_RATIO, posY.Get()/PTM_RATIO );
 	bodyDef.angle = rotation*DEGTORAD;
 	body = PhysicsManager::Instance()->CreateBody( &bodyDef );
@@ -51,7 +51,7 @@ void BodyDynamic::Init()
 	staticObject.Set(false);
 }
 
-void BodyDynamic::Update(float delta)
+void BodyKinematic::Update(float delta)
 {
 	posX.Set( body->GetPosition().x * PTM_RATIO, false );
 	posY.Set( body->GetPosition().y * PTM_RATIO, false );
@@ -60,17 +60,17 @@ void BodyDynamic::Update(float delta)
 	velocityY.Set( body->GetLinearVelocity().y, false );
 }
 
-void BodyDynamic::Draw(sf::RenderWindow &window)
+void BodyKinematic::Draw(sf::RenderWindow &window)
 {
 
 }
 
-void BodyDynamic::ExecuteCommand(int command, void* data)
+void BodyKinematic::ExecuteCommand(int command, void* data)
 {
 
 }
 
-void BodyDynamic::ExecuteEvent(int event, void* data)
+void BodyKinematic::ExecuteEvent(int event, void* data)
 {
 
 }

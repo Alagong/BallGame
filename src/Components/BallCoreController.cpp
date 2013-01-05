@@ -8,6 +8,12 @@
 #include "QueryCallbacks.h"
 #include "defines.h"
 #include <iostream>
+#include <math.h>
+
+#include "ObjectTemplateManager.h"
+#include "ObjectManager.h"
+
+#include "Input.h"
 BallCoreController::BallCoreController(Entity *entity, const std::string &name)
 	: Component(entity,name), go((Object*)entity)
 {
@@ -17,6 +23,7 @@ BallCoreController::BallCoreController(Entity *entity, const std::string &name)
 	spriteRadius	= go->AddProperty<float>("Width",0);
 	physBody       = go->AddProperty<b2Body**>("PhysBody", &body);
 	height			= go->AddProperty<float>("Height",0);
+	cameraZoom	=	go->AddProperty<float>("CameraZoom", 1.0 );
 }
 
 BallCoreController::~BallCoreController()
@@ -26,26 +33,58 @@ BallCoreController::~BallCoreController()
 
 void BallCoreController::Init()
 {
+	spriteRadius.ValueChanged().connect(boost::bind(&BallCoreController::OnWidthChanged,this,_1,_2));
 	body = *physBody.Get();
 
 	for( int i = 0; i < 4; ++i )
 	{
 		movingDirection[i] = false;
 	}
+
+	absorbing = false;
+
+	cameraZoom = spriteRadius/70;
+
+	jumping = false;
 }
 
 void BallCoreController::Update(float delta)
 {
-	if( movingDirection[0] )
+	float maxSpeed = spriteRadius.Get()/7;
+
+	if( Input::IsKeyDown( sf::Keyboard::Right ) )
 	{
-		body->ApplyForceToCenter( b2Vec2( 3.0, 0 ) );
+		if( body->GetLinearVelocity().x < maxSpeed )
+		{
+			if( body->GetLinearVelocity().x < 0 )
+			{
+				body->ApplyForceToCenter( b2Vec2( maxSpeed*2, 0 ) );
+			} else 
+			{
+				body->ApplyForceToCenter( b2Vec2( maxSpeed, 0 ) );
+			}
+		}
 	}
-	if( movingDirection[2] )
+	if( Input::IsKeyDown( sf::Keyboard::Left ) )
 	{
-		body->ApplyForceToCenter( b2Vec2( -3.0, 0 ) );
+		if( body->GetLinearVelocity().x > -maxSpeed )
+		{
+			if( body->GetLinearVelocity().x > 0 )
+			{
+				body->ApplyForceToCenter( b2Vec2( -maxSpeed*2, 0 ) );
+			} else 
+			{
+				body->ApplyForceToCenter( b2Vec2( -maxSpeed, 0 ) );
+			}
+		}
 	}
 
-	if( movingDirection[3] )
+	if( !Input::IsKeyDown( sf::Keyboard::Left ) && !Input::IsKeyDown( sf::Keyboard::Right ) )
+	{
+		body->SetLinearVelocity( b2Vec2(body->GetLinearVelocity().x/1.1, body->GetLinearVelocity().y ) );
+	}
+
+	if( absorbing )
 	{
 		QueryObjectsAABB callback;
 		b2AABB aabb;
@@ -69,6 +108,7 @@ void BallCoreController::Update(float delta)
 			}
 		}
 	}
+
 }
 
 void BallCoreController::Draw(sf::RenderWindow &window)
@@ -82,7 +122,12 @@ void BallCoreController::ExecuteCommand(int command, void* data)
 	{
 	case COMMAND_JUMP:
 		{
-			body->SetLinearVelocity( b2Vec2( body->GetLinearVelocity().x, -5 ) );
+			if( !jumping )
+			{
+				float vel = sqrt(sqrt( spriteRadius.Get()*2*9.81 ));//what
+				body->SetLinearVelocity( b2Vec2( body->GetLinearVelocity().x, -vel ) );
+				jumping = true;
+			}
 			break;
 		}
 	case COMMAND_MOVE:
@@ -96,6 +141,42 @@ void BallCoreController::ExecuteCommand(int command, void* data)
 			}
 			break;
 		}
+	case COMMAND_ACTION1:
+		{
+			if( (bool)data )
+			{
+				SplitBubble();
+			}
+			break;
+		}
+	case COMMAND_ACTION2:
+		{
+			if( (bool)data )
+			{
+				absorbing = true;
+			} else 
+			{
+				absorbing = false;
+			}
+			break;
+		}
+	case COMMAND_ACTION3:
+		{
+			Object* obj = ObjectTemplateManager::Instance()->Create( "Bubble" );
+			obj->GetProperty<float>("Width") = 40;
+			obj->GetProperty<float>("Height") = 40;
+			obj->GetProperty<float>("PosX") = posX.Get();
+			obj->GetProperty<float>("PosY") = posY.Get() + 50;
+			obj->InitComponents();
+			ObjectManager::Instance()->AddObject( obj );
+			break;
+		}
+	case COMMAND_ACTION4:
+		{
+			std::cout << posX.Get() << " " << posY.Get() << std::endl;
+			break;
+		}
+
 	default:
 		break;
 	}
@@ -105,6 +186,68 @@ void BallCoreController::ExecuteEvent(int event, void* data)
 {
 	if( event == EVENT_STARTEDCOLLIDING )
 	{
-		Object* collidedWith = (Object*)data;
+		b2Contact *contact = (b2Contact*)data;
+		Object* collidedWith;
+		if( contact->GetFixtureA()->GetUserData() == go )
+		{
+			collidedWith = (Object*)contact->GetFixtureB()->GetUserData();
+		} else
+		{
+			collidedWith = (Object*)contact->GetFixtureA()->GetUserData();
+		}
+
+		if( collidedWith->HasComponent("BubbleAbsorbable") )
+		{
+			if( (collidedWith->GetProperty<float>("PosY") - posY.Get()) > 0 )
+			{
+				jumping = false;
+			}
+		}
+
+		b2Manifold *manifold = contact->GetManifold();
+		for( int i = 0; i < manifold->pointCount; ++i )
+		{
+			b2ManifoldPoint point = manifold->points[i];
+			if( manifold->localNormal.y == -1 && manifold->localNormal.x == 0 )
+			{
+				jumping = false;
+			}
+		}
+	} 
+}
+
+void BallCoreController::SplitBubble()
+{
+	if( spriteRadius.Get() <= 20 ) 
+		return;
+
+	float splitRadius = spriteRadius.Get()/2;
+	float newCoreRadius = splitRadius;
+	float newBubbleRadius = splitRadius;
+	if( newCoreRadius < 20 )
+	{
+		float diff = 20 - newCoreRadius;
+		newCoreRadius += diff;
+		newBubbleRadius -= diff;
 	}
+
+	spriteRadius.Set( newCoreRadius );
+	height.Set( newCoreRadius );
+
+	Object* obj = ObjectTemplateManager::Instance()->Create( "Bubble" );
+	obj->GetProperty<float>("Width") = newBubbleRadius;
+	obj->GetProperty<float>("Height") = newBubbleRadius;
+	obj->GetProperty<float>("PosX") = posX.Get();
+	obj->GetProperty<float>("PosY") = posY.Get() + newBubbleRadius;
+	obj->InitComponents();
+	ObjectManager::Instance()->AddObject( obj );
+
+}
+
+void BallCoreController::OnWidthChanged( const float &oldValue, const float &newValue )
+{
+	//Calculate new zoom
+	float zoom = newValue/70;
+
+	cameraZoom = zoom;
 }

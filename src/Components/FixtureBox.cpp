@@ -7,8 +7,8 @@ FixtureBox::FixtureBox(Entity *entity, const std::string &name)
 	: Component(entity,name), go((Object*)entity)
 {
 	body           = NULL;
-	spriteWidth    = go->AddProperty<float>("SpriteWidth",32);
-	spriteHeight   = go->AddProperty<float>("SpriteHeight",32);
+	width    = go->AddProperty<float>("Width",0);
+	height   = go->AddProperty<float>("Height",0);
 	collisionWidth    = go->AddProperty<float>("CollisionWidth",-1);
 	collisionHeight   = go->AddProperty<float>("CollisionHeight",-1);
 	posX           = go->AddProperty<float>("PosX",0);
@@ -58,9 +58,9 @@ void FixtureBox::Init()
 
 	//If collisionwidth/height is not defined, set it as the same as spritewidth
 	if(collisionWidth.Get() <= 0)
-		collisionWidth.Set(spriteWidth.Get());
+		collisionWidth.Set(width.Get());
 	if(collisionHeight.Get() <= 0)
-		collisionHeight.Set(spriteHeight.Get());
+		collisionHeight.Set(height.Get());
 
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox( (collisionWidth.Get()/2)/PTM_RATIO - (1/PTM_RATIO) , (collisionHeight.Get()/2)/PTM_RATIO - (1/PTM_RATIO),

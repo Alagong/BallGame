@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Object.h"
+#include "Camera.h"
 ObjectSprite::ObjectSprite(Entity *entity, const std::string &name)
 	: Component(entity,name), go((Object*)entity)
 {
@@ -22,6 +23,7 @@ ObjectSprite::ObjectSprite(Entity *entity, const std::string &name)
 
 	width = go->AddProperty<float>("Width",0);
 	height = go->AddProperty<float>("Height",0);
+
 	rotation = go->AddProperty<float>("Rotation",0);
 	alpha = go->AddProperty<int>("ColorAlpha",255);
 
@@ -44,8 +46,10 @@ void ObjectSprite::Init()
 		skin.Set( rand() % totalSkins.Get() );
 	}
 	
-	if( width.Get() == 0 ) width.Set( spriteWidth.Get() );
-	if( height.Get() == 0 ) height.Set( spriteHeight.Get() );
+	if( width.Get() == 0 ) 
+		width.Set( spriteWidth.Get() );
+	if( height.Get() == 0 ) height.Set( 
+		spriteHeight.Get() );
 
 	texture.loadFromFile( imagePath.Get() );
 
@@ -68,6 +72,11 @@ void ObjectSprite::Update(int delta)
 
 void ObjectSprite::Draw(sf::RenderWindow *window)
 {
+	//Basic culling
+	sf::Vector2f cameraPos = Camera::Instance()->GetCenter();
+	sf::Vector2f bounds = Camera::Instance()->GetCameraBounds();
+
+
 	sprite.setPosition( posX.Get() + offsetX.Get(),posY.Get() + offsetY.Get() );
 	sprite.setRotation( rotation.Get() );
 	window->draw(sprite);

@@ -11,6 +11,7 @@
 #include "AnimationContainer.h"
 #include "PhysicsManager.h"
 #include "Input.h"
+#include "MapLoader.h"
 GameManager* GameManager::gameManagerInstance;
 GameManager* GameManager::Instance()
 {
@@ -33,32 +34,25 @@ GameManager::~GameManager()
 void GameManager::Run()
 {
 	std::string title("Ball Game");
-	DrawManager::Instance()->CreateWindow( title, 600, 599, true, 60 );
+	DrawManager::Instance()->CreateWindow( title, 1366, 768, false, 60 );
 
 	ComponentRegistrator::Register( *ComponentFactory::Instance() );
 
 	ObjectTemplateManager::Instance()->LoadObjects( std::string("../resources/data/objects/") );
 
-	Object* obj = ObjectTemplateManager::Instance()->Create("Test");
-	obj->InitComponents();
-	ObjectManager::Instance()->AddObject( obj );
+	MapLoader loader;
+	loader.LoadMap( std::string( "../resources/data/maps/protomap/" ) );
+	ObjectManager::Instance()->InitAllObjects();
 
-	Object* obj3 = ObjectTemplateManager::Instance()->Create("Bubble");
-	obj3->GetProperty<float>("PosX") = 300;
-	obj3->InitComponents();
-	ObjectManager::Instance()->AddObject( obj3 );
+	Camera::Instance()->SetActiveCameraID( 0 );
 
-	Object* obj2 = ObjectTemplateManager::Instance()->Create("Wall");
-	obj2->GetProperty<float>("PosX") = 300;
-	obj2->GetProperty<float>("PosY") = 300;
-	obj2->InitComponents();
-	ObjectManager::Instance()->AddObject( obj2 );
+	sf::RenderWindow* windowPtr = DrawManager::Instance()->Window();
 
-	while( DrawManager::Instance()->IsWindowOpen() )
+	while( windowPtr->isOpen() )
 	{
 		input->ResetKeyStates();
 		sf::Event event;
-		while( DrawManager::Instance()->Window()->pollEvent( event ) )
+		while( windowPtr->pollEvent( event ) )
 		{
 			input->PollInput( event );
 		}

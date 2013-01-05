@@ -15,6 +15,14 @@
 #include "Components/BallCoreController.h"
 #include "Components/PlayerInput.h"
 #include "Components/BubbleAbsorbable.h"
+#include "Components/CameraController.h"
+#include "Components/CornerPosition.h"
+#include "Components/BubbleAbsorbing.h"
+#include "Components/ButtonPressure.h"
+#include "Components/BodyKinematic.h"
+#include "Components/TrackTrain.h"
+#include "Components/GradientRectangle.h"
+#include "Components/SphereShape.h"
 class ComponentRegistrator
 {
 public:
@@ -30,5 +38,13 @@ public:
 		factory.RegisterComponent("BallCoreController",&BallCoreController::Create);
 		factory.RegisterComponent("PlayerInput",&PlayerInput::Create);
 		factory.RegisterComponent("BubbleAbsorbable",&BubbleAbsorbable::Create);
+		factory.RegisterComponent("CameraController",&CameraController::Create);
+		factory.RegisterComponent("CornerPosition",&CornerPosition::Create);
+		factory.RegisterComponent("BubbleAbsorbing",&BubbleAbsorbing::Create);
+		factory.RegisterComponent("ButtonPressure",&ButtonPressure::Create);
+		factory.RegisterComponent("BodyKinematic",&BodyKinematic::Create);
+		factory.RegisterComponent("TrackTrain",&TrackTrain::Create);
+		factory.RegisterComponent("GradientRectangle",&GradientRectangle::Create);
+		factory.RegisterComponent("SphereShape",&SphereShape::Create);
 	}
 };
