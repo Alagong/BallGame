@@ -14,6 +14,7 @@ CameraController::CameraController(Entity *entity, const std::string &name)
 
 	cameraID = go->AddProperty<int>("CameraID", -1);
 	cameraZoom = go->AddProperty<float>("CameraZoom", 1.0 );
+	zoomTime = go->AddProperty<float>("ZoomTime", 0.0 );
 }
 
 CameraController::~CameraController()
@@ -51,5 +52,5 @@ void CameraController::ExecuteEvent(int event, void* data)
 
 void CameraController::OnZoomChanged( const float &oldValue, const float &newValue )
 {
-	Camera::Instance()->Zoom( newValue );
+	Camera::Instance()->Zoom( newValue, zoomTime.Get() );
 }

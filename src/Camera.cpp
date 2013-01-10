@@ -14,6 +14,30 @@ Camera::Camera()
 	activeCameraID = 0;
 	SetWindowPtr( DrawManager::Instance()->Window() );
 	zoom = 1.0f;
+	zooming = false;
+	zoomTime = 1.0f;
+	zoomFrom = zoom;
+	zoomTo = zoom;
+}
+
+void Camera::Update( float delta )
+{
+	if( zooming && zoomTime > zoomTimer.GetSeconds() )
+	{
+		float interpScale = zoomTimer.GetSeconds() / zoomTime;
+		float diff = zoomTo - zoomFrom;
+		float newZoom = zoomFrom + (diff * interpScale);
+		zoom = newZoom;
+
+		sf::View curView = window->getView();
+		curView.setSize( screenSize * zoom );
+		window->setView( curView );
+
+	} else 
+	{
+		zoom = zoomTo;
+		zooming = false;
+	}
 }
 
 void Camera::SetWindowPtr( sf::RenderWindow* windowPtr )
@@ -38,13 +62,22 @@ void Camera::UpdateWindowView()
 	window->setView( curView );
 }
 
-void Camera::Zoom( float scale )
+void Camera::Zoom( float scale, float time )
 {
-	sf::View curView = window->getView();
-	curView.setSize( screenSize * scale );
-	window->setView( curView );
-}
+	if( time != 0 )
+	{
+		zoomTimer.Restart();
+		zooming = true;
+		zoomFrom = zoom;
+		zoomTo = scale;
+		zoomTime = time;
+	} else {
+		sf::View curView = window->getView();
+		curView.setSize( screenSize * scale );
+		window->setView( curView );
+	}
 
+}
 
 int Camera::GetActiveCameraID()
 {

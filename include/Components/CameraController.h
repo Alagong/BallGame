@@ -25,6 +25,7 @@ protected:
 	Property<float> height;
 	Property<int> cameraID;
 	Property<float> cameraZoom;
+	Property<float> zoomTime;
 	
 	Object* go;
 

@@ -19,7 +19,6 @@ namespace sf
 }
 
 class Object;
-class Timer;
 class Waypoint;
 class ObjectManager
 {
@@ -27,7 +26,6 @@ private:
 	static ObjectManager* objectManagerInstance;
 	std::list<Object*> objectList;
 	std::vector<Waypoint*> waypoints;
-	Timer* fpsTimer;
 public:
 	static ObjectManager* Instance();
 
@@ -41,7 +39,7 @@ public:
 
 	Waypoint* GetWaypointByID(int id);
 	void AddWaypoint( Waypoint *wp );
-	void UpdateObjects();
+	void UpdateObjects( float delta );
 	void DrawObjects(sf::RenderWindow* window);
 
 	std::vector< std::list<Object*> > objectLists;

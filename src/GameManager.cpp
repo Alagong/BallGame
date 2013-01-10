@@ -12,6 +12,7 @@
 #include "PhysicsManager.h"
 #include "Input.h"
 #include "MapLoader.h"
+#include "Timer.h"
 GameManager* GameManager::gameManagerInstance;
 GameManager* GameManager::Instance()
 {
@@ -24,17 +25,18 @@ GameManager::GameManager()
 {
 	input = new Input();
 	input->ResetKeyStates();
+	fpsTimer = new Timer();
 }
 
 GameManager::~GameManager()
 {
-
+	delete fpsTimer;
 }
 
 void GameManager::Run()
 {
 	std::string title("Ball Game");
-	DrawManager::Instance()->CreateWindow( title, 1360, 768, false, 60 );
+	DrawManager::Instance()->CreateWindow( title, 1360, 768, true, 60 );
 
 	ComponentRegistrator::Register( *ComponentFactory::Instance() );
 
@@ -61,8 +63,12 @@ void GameManager::Run()
 			input->PollInput( event );
 		}
 
+		float delta = fpsTimer->GetMilliseconds();
+		fpsTimer->Restart();
+
 		PhysicsManager::Instance()->Step();
-		ObjectManager::Instance()->UpdateObjects();
+		Camera::Instance()->Update( delta );
+		ObjectManager::Instance()->UpdateObjects( delta );
 
 		DrawManager::Instance()->Render();
 	}

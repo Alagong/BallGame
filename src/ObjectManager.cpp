@@ -13,7 +13,6 @@ ObjectManager* ObjectManager::Instance()
 
 ObjectManager::ObjectManager()
 {
-	fpsTimer = new Timer();
 	//What
 	std::list<Object*> e;
 	objectLists.push_back( e );
@@ -26,7 +25,6 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	delete fpsTimer;
 }
 
 void ObjectManager::AddObject( Object* obj, Layer layer )
@@ -39,10 +37,8 @@ void ObjectManager::AddObject( Object* obj, Layer layer )
 
 }
 
-void ObjectManager::UpdateObjects()
+void ObjectManager::UpdateObjects( float delta)
 {
-	float delta = fpsTimer->GetMilliseconds();
-	fpsTimer->Restart();
 	for( int i = 0; i < LAYER_COUNT; ++i )
 	{
 		for( std::list<Object*>::iterator it = objectLists[i].begin(); it != objectLists[i].end(); ++it )
