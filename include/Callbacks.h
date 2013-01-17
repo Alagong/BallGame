@@ -2,7 +2,11 @@
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/dynamics/b2Fixture.h>
-// This callback finds the closest hit. Polygon 0 is filtered.
+
+
+/**
+ * Raycasts and rports the first first body it hits
+ */
 class RayCastFirstBodyCallback : public b2RayCastCallback
 {
 public:

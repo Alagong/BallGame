@@ -228,6 +228,5 @@ void ObjectTemplateManager::LoadProperties( json_spirit::Object &properties, Obj
 			default:
 				break;
 		}
-					
 	}
 }

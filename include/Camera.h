@@ -1,47 +1,48 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
+#include "Timer.h"
+
 namespace sf
 {
 	class RenderWindow;
 };
-#include <SFML/System/Vector2.hpp>
-#include "Timer.h"
+
 class Camera
 {
 private:
-	static Camera* cameraInstance;
+	static Camera* s_cameraInstance;
 
-	sf::RenderWindow* window;
-	sf::Vector2f center;
-	sf::Vector2f screenSize;
-	int activeCameraID;
+	sf::RenderWindow* m_window;
+	sf::Vector2f m_center;
 
+	sf::Vector2f m_screenSize;
+	int m_activeCameraId;
 
-	float zoom;
-	float zoomFrom;
-	float zoomTo;
-
-	Timer zoomTimer;
-	float zoomTime;
-	bool zooming;
-	
+	float m_zoom;
+	float m_zoomFrom;
+	float m_zoomTo;
+	Timer m_zoomTimer;
+	float m_zoomTime;
+	bool m_zooming;
 
 	void SetWindowPtr( sf::RenderWindow* windowPtr );
 public:
+
 	static Camera* Instance();
+
 	Camera();
 
 	void Update( float delta );
 
-	sf::Vector2f GetCenter() const {return center;}
+	sf::Vector2f GetCenter() const;
 	void SetCenter( sf::Vector2f center );
 
-	void SetCameraBounds( sf::Vector2f bounds );
-	sf::Vector2f GetCameraBounds();
-	void UpdateWindowView();
+	int GetActiveCameraId();
+	void SetActiveCameraId(int cameraId);
 
 	void Zoom( float scale, float time = 0 );
 
-	int GetActiveCameraID();
-	void SetActiveCameraID(int ID);
+	void SetCameraBounds( sf::Vector2f bounds );
+	sf::Vector2f GetCameraBounds();
 };

@@ -1,13 +1,13 @@
 #pragma once
-
-/*
-**
-*/
 #include <string>
 namespace sf
 {
 	class RenderWindow;
 };
+
+/*
+** class to handle the window
+*/
 class DrawManager
 {
 private:

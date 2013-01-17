@@ -29,7 +29,7 @@ void CameraController::Init()
 
 void CameraController::Update(float delta)
 {
-	if( cameraID == Camera::Instance()->GetActiveCameraID() )
+	if( cameraID == Camera::Instance()->GetActiveCameraId() )
 	{
 		Camera::Instance()->SetCenter( sf::Vector2f( posX.Get(), posY.Get() ) );
 	}
