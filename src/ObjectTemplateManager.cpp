@@ -50,11 +50,14 @@ Object* ObjectTemplateManager::Create(std::string name)
 
 	if(objTemplate == NULL)
 	{
+		std::cout << "Couldn't find template for object: " << name << std::endl;
 		return NULL;
 	}
 
 	Object* newObj = CreateFromTemplate(objTemplate);
 
+	if( !newObj )
+		std::cout << "Couldn't create object: " << name << std::endl;
 	return newObj;
 }
 
@@ -225,6 +228,5 @@ void ObjectTemplateManager::LoadProperties( json_spirit::Object &properties, Obj
 			default:
 				break;
 		}
-					
 	}
 }

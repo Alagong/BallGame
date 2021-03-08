@@ -19,29 +19,27 @@ namespace sf
 }
 
 class Object;
-class Timer;
+class Waypoint;
 class ObjectManager
 {
 private:
 	static ObjectManager* objectManagerInstance;
 	std::list<Object*> objectList;
-
-	Timer* fpsTimer;
+	std::vector<Waypoint*> waypoints;
 public:
 	static ObjectManager* Instance();
 
 	ObjectManager();
 	~ObjectManager();
-	/*
-	**	Add a new created object to the list
-	*/
-	void AddObject(Object* obj, Layer layer = LAYER_MAIN);
-	/*
-	**	Check objects to see if their removal flag is set to true and remove them
-	*/
-	void RemoveFlaggedObjects();
 
-	void UpdateObjects();
+	void AddObject(Object* obj, Layer layer = LAYER_MAIN);
+	void InitAllObjects();
+	void RemoveFlaggedObjects();
+	Object* GetObjectByID( int id );
+
+	Waypoint* GetWaypointByID(int id);
+	void AddWaypoint( Waypoint *wp );
+	void UpdateObjects( float delta );
 	void DrawObjects(sf::RenderWindow* window);
 
 	std::vector< std::list<Object*> > objectLists;

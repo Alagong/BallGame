@@ -9,6 +9,10 @@
 #include "ObjectTemplateManager.h"
 #include <iostream>
 #include "AnimationContainer.h"
+#include "PhysicsManager.h"
+#include "Input.h"
+#include "MapLoader.h"
+#include "Timer.h"
 GameManager* GameManager::gameManagerInstance;
 GameManager* GameManager::Instance()
 {
@@ -19,32 +23,53 @@ GameManager* GameManager::Instance()
 
 GameManager::GameManager()
 {
-
+	input = new Input();
+	input->ResetKeyStates();
+	fpsTimer = new Timer();
 }
 
 GameManager::~GameManager()
 {
-
+	delete fpsTimer;
 }
 
 void GameManager::Run()
 {
 	std::string title("Ball Game");
-	DrawManager::Instance()->CreateWindow( title, 1366, 768, true, 60 );
+	DrawManager::Instance()->CreateWindow( title, 1360, 768, true, 60 );
 
 	ComponentRegistrator::Register( *ComponentFactory::Instance() );
 
 	ObjectTemplateManager::Instance()->LoadObjects( std::string("../resources/data/objects/") );
 
-	Object* obj = ObjectTemplateManager::Instance()->Create("Test");
-	obj->InitComponents();
-	ObjectManager::Instance()->AddObject( obj );
+	MapLoader loader;
+	loader.LoadMap( std::string( "../resources/data/maps/protomap/" ) );
+	ObjectManager::Instance()->InitAllObjects();
 
-	while( DrawManager::Instance()->IsWindowOpen() )
+	Camera::Instance()->SetActiveCameraID( 0 );
+
+	sf::RenderWindow* windowPtr = DrawManager::Instance()->Window();
+
+	while( windowPtr->isOpen() )
 	{
+		input->ResetKeyStates();
 		sf::Event event;
-		DrawManager::Instance()->Window()->pollEvent( event );
-		ObjectManager::Instance()->UpdateObjects();
+		while( windowPtr->pollEvent( event ) )
+		{
+			if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+			{
+				windowPtr->close();
+			}
+			input->PollInput( event );
+		}
+
+		float delta = fpsTimer->GetMilliseconds();
+		fpsTimer->Restart();
+
+		PhysicsManager::Instance()->Step();
+		Camera::Instance()->Update( delta );
+		ObjectManager::Instance()->UpdateObjects( delta );
+
 		DrawManager::Instance()->Render();
 	}
 }

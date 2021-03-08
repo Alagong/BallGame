@@ -11,6 +11,7 @@ class CommandQueue;
 class PlayState;
 class Component;
 class ComponentFactory;
+struct CommandData;
 class ComponentContainer
 {
 public:

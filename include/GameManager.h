@@ -1,13 +1,14 @@
 #pragma once
 #include <list>
-class Player;
-class Wall;
 class Camera;
+class Input;
+class Timer;
 class GameManager
 {
 private:
 	static GameManager* gameManagerInstance;
-	Camera* camera;
+	Input* input;
+	Timer* fpsTimer;
 public:
 	static GameManager* Instance();
 	GameManager();
@@ -15,5 +16,4 @@ public:
 
 	void Run();
 
-	Camera* GetCamera() { return camera; }
 };

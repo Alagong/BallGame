@@ -14,24 +14,45 @@
     <ClCompile Include="src\AnimationContainer.cpp" />
     <ClCompile Include="src\AnimationHandler.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Components\CameraController.cpp" />
     <ClCompile Include="src\ComponentEngine\CommandQueue.cpp" />
     <ClCompile Include="src\ComponentEngine\ComponentContainer.cpp" />
     <ClCompile Include="src\ComponentEngine\ComponentFactory.cpp" />
+    <ClCompile Include="src\Components\AIController_Walker.cpp" />
     <ClCompile Include="src\Components\AnimationPlayer.cpp" />
+    <ClCompile Include="src\Components\BallCoreController.cpp" />
+    <ClCompile Include="src\Components\BodyDynamic.cpp" />
+    <ClCompile Include="src\Components\BodyKinematic.cpp" />
+    <ClCompile Include="src\Components\BodyStatic.cpp" />
+    <ClCompile Include="src\Components\BubbleAbsorbable.cpp" />
+    <ClCompile Include="src\Components\BubbleAbsorbing.cpp" />
+    <ClCompile Include="src\Components\ButtonPressure.cpp" />
+    <ClCompile Include="src\Components\CornerPosition.cpp" />
+    <ClCompile Include="src\Components\FixtureBox.cpp" />
+    <ClCompile Include="src\Components\FixtureSphere.cpp" />
+    <ClCompile Include="src\Components\GradientRectangle.cpp" />
     <ClCompile Include="src\Components\ObjectSprite.cpp" />
+    <ClCompile Include="src\Components\PlayerInput.cpp" />
+    <ClCompile Include="src\Components\SphereShape.cpp" />
+    <ClCompile Include="src\Components\TrackTrain.cpp" />
     <ClCompile Include="src\DrawManager.cpp" />
     <ClCompile Include="src\GameManager.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">include;</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="src\MapLoader.cpp" />
     <ClCompile Include="src\ObjectManager.cpp" />
     <ClCompile Include="src\ObjectTemplateManager.cpp" />
+    <ClCompile Include="src\PhysicsManager.cpp" />
+    <ClCompile Include="src\QueryCallbacks.cpp" />
     <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\AnimationContainer.h" />
     <ClInclude Include="include\AnimationHandler.h" />
+    <ClInclude Include="include\Callbacks.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\ComponentEngine\CommandQueue.h" />
     <ClInclude Include="include\ComponentEngine\CompCommands.h" />
@@ -45,18 +66,39 @@
     <ClInclude Include="include\componentengine\iproperty.h" />
     <ClInclude Include="include\ComponentEngine\Property.h" />
     <ClInclude Include="include\ComponentEngine\PropertyContainer.h" />
+    <ClInclude Include="include\Components\AIController_Walker.h" />
     <ClInclude Include="include\Components\AnimationPlayer.h" />
+    <ClInclude Include="include\Components\BallCoreController.h" />
+    <ClInclude Include="include\Components\BodyDynamic.h" />
+    <ClInclude Include="include\Components\BodyKinematic.h" />
+    <ClInclude Include="include\Components\BodyStatic.h" />
+    <ClInclude Include="include\Components\BubbleAbsorbable.h" />
+    <ClInclude Include="include\Components\BubbleAbsorbing.h" />
+    <ClInclude Include="include\Components\ButtonPressure.h" />
+    <ClInclude Include="include\Components\CameraController.h" />
+    <ClInclude Include="include\Components\CornerPosition.h" />
+    <ClInclude Include="include\Components\FixtureBox.h" />
+    <ClInclude Include="include\Components\FixtureSphere.h" />
+    <ClInclude Include="include\Components\GradientRectangle.h" />
     <ClInclude Include="include\Components\ObjectSprite.h" />
+    <ClInclude Include="include\Components\PlayerInput.h" />
+    <ClInclude Include="include\Components\SphereShape.h" />
+    <ClInclude Include="include\Components\TrackTrain.h" />
+    <ClInclude Include="include\CustomContactListener.h" />
     <ClInclude Include="include\defines.h" />
     <ClInclude Include="include\DrawManager.h" />
     <ClInclude Include="include\Frame.h" />
     <ClInclude Include="include\GameManager.h" />
+    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\MapLoader.h" />
     <ClInclude Include="include\PhysicsManager.h" />
+    <ClInclude Include="include\QueryCallbacks.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\ObjectManager.h" />
     <ClInclude Include="include\ObjectSprite.h" />
     <ClInclude Include="include\ObjectTemplateManager.h" />
+    <ClInclude Include="include\Waypoint.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A71DC48A-C40B-422C-983D-41F62CF7729E}</ProjectGuid>
@@ -93,6 +135,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\libraries\SFML-2.0-rc\include\;C:\libraries\Box2D_v2.2.1\;..\ComponentEngine\include;C:\libraries\boost_1_50_0\;C:\libraries\json_spirit_v4.05\json_spirit;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <LibraryPath>C:\libraries\SFML-2.0-rc\lib;C:\libraries\Box2D_v2.2.1\Build\vs2010\bin\Release;C:\libraries\boost_1_50_0\stage\lib\;C:\libraries\json_spirit_v4.05\Release;$(LibraryPath)</LibraryPath>
+    <OutDir>bin/Release/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -107,6 +152,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Box2D.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;libboost_signals-vc100-mt-gd-1_50.lib;json_spirit_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,13 +163,16 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>Box2D.lib;sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;libboost_signals-vc100-mt-1_50.lib;json_spirit_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
